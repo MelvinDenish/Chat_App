@@ -49,7 +49,10 @@ const io = new Server(httpServer , {
 io.on("connection" , (socket) => {
     socket.on("send_message" , (message) => {
         console.log(`${message}`)
-        io.emit('receive_message' , `${message}`);
+        io.emit('receive_message' , {
+            message , 
+            userid : socket.id
+        });
     })
 })
 httpServer.listen(3000 , () => {console.log("listen at port 3000")});

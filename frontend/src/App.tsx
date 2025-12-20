@@ -6,13 +6,23 @@ import Message from "./components/Message.js";
 import "./index.css"
 export interface messageType {
   message : string;
-  user ?: string
+  userid : string
 }
 function App() {
   const [messages , setMessages] = useState<Array<messageType>>([]);
-  socket.on("receive_message" , (message) => {
-  setMessages([...messages , {message , user:socket.id}])
-  })
+  useEffect(() => {
+    socket.off("receive_message" , (message) => {
+    setMessages(state => [...state , message])
+  } )
+    socket.on("receive_message" , (message) => {
+    setMessages(state => [...state , message])
+  } )
+  return () => { 
+    socket.off("receive_message" , (message) => {
+    setMessages(state => [...state , message])
+  } )
+  }
+  } , [])
   return (
     <div className="max-h-full h-screen w-screen">
       <ConnectSocket/>
@@ -20,10 +30,9 @@ function App() {
         <div className="flex-1 m-3 rounded-2xl bg-(--bg) border border-[hsl(266,10%,60%)]">
           <div className="p-4 text-(--text-primary) text-xl font-semibold border-solid">
             GROUPS
-
           </div>
         </div>
-        <div className="flex flex-col bg-(--bg-light) hover:bg-(--bg-light) flex-1 rounded-2xl m-3  border border-[hsl(221,10%,50%)]">
+        <div className="flex flex-col bg-(--bg-light) hover:bg-(--bg-light) flex-4 rounded-2xl m-3  border border-[hsl(221,10%,50%)]">
             <div className="flex-col flex-1  p-4 flex overflow-y-auto">
                 <div className=" flex-1 overflow-y-auto">
                   {

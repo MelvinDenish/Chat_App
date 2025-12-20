@@ -12,6 +12,7 @@ export default function SearchBar() {
   const sendMessage = () => {
     if (!inputRef.current) return;
     const value = inputRef.current.value;
+    
     setMessage(value);
     socket.emit("send_message" , value)
     inputRef.current.value = ""; // clear input

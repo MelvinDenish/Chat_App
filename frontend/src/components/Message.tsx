@@ -1,19 +1,26 @@
 import {socket} from "../socket"
 type messageType = {
   message : string;
-  user ?: string
+  userid : string
 }
 type propType = {
   messages : messageType;
-  key : number;
 }
 function Message(props : propType) {
-  const mine = props.messages.user === socket.id
+  const mine = props.messages.userid === socket.id
   return (
-    <div className="flex bg-[hsl(249,7%,35%)] justify-center rounded-2xl p-4 ">
+    <div className="flex flex-col flex-1 text-(--text-primary)">
         {
-          props.messages.message
+          mine ? 
+          <div className="self-end p-4 bg-(--bg-ligther) rounded-2xl">
+{          props.messages.message
+}          </div>
+          :
+          <div className="self-start p-4 rounded-2xl bg-(--bg-dark)">
+{          props.messages.message
+}          </div>
         }
+        
     </div>
   )
 }
