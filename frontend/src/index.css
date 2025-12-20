@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@plugin "daisyui";
+:root{
+    --bg-dark : hsl(223, 100%, 5%);
+    --bg : hsl(223, 41%, 10%);
+    --bg-light : hsl(223, 40%, 15%);
+
+    --text-primary : hsl(0,0%,95%);
+    --text-secondary : hsl(0,0%,70%);
+
+}

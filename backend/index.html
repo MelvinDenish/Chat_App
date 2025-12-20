@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <script>
+        const socket = io("http://localhost:3000");
+        socket.on("connect" , () => {console.log("connected")});
+        socket.on("message" , (message) => {
+            console.log(message)
+            document.getElementById("texts").innerHTML += `<br><div>` + message + `</div>`;
+        })
+        const Messege = () => {
+            const data = document.getElementById("id1").value;
+            socket.emit("message" , data)
+        }
+    </script>
+    <input type="text" id="id1">
+    <button onclick="Messege()">submit</button>
+    <p id="texts">
+    </p>
+</body>
+</html>
