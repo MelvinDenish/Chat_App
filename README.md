@@ -1,4 +1,4 @@
-##A Chat App Using the Following Tech Stack
+# A Chat App Using the Following Tech Stack
 
 ->REACT
 
