@@ -11,12 +11,11 @@ export interface messageType {
 function App() {
   const [messages , setMessages] = useState<Array<messageType>>([]);
   useEffect(() => {
-    socket.off("receive_message" , (message) => {
+    const handleReceive = (message : messageType) => {
     setMessages(state => [...state , message])
-  } )
-    socket.on("receive_message" , (message) => {
-    setMessages(state => [...state , message])
-  } )
+  }
+    socket.off("receive_message" , handleReceive)
+    socket.on("receive_message" ,  handleReceive)
   return () => { 
     socket.off("receive_message" , (message) => {
     setMessages(state => [...state , message])

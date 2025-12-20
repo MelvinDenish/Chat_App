@@ -9,14 +9,14 @@ type propType = {
 function Message(props : propType) {
   const mine = props.messages.userid === socket.id
   return (
-    <div className="flex flex-col flex-1 text-(--text-primary)">
+    <div className="flex flex-col flex-1 text-black font-medium  font-mono">
         {
           mine ? 
           <div className="self-end p-4 bg-(--bg-ligther) rounded-2xl">
 {          props.messages.message
 }          </div>
           :
-          <div className="self-start p-4 rounded-2xl bg-(--bg-dark)">
+          <div className="self-start p-4 rounded-2xl bg-(--bg-ligthest)">
 {          props.messages.message
 }          </div>
         }
