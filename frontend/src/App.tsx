@@ -1,54 +1,39 @@
 import { useEffect, useState } from "react"
-import SearchBar from "./components/SearchBar.js"
+import MessageBar from "./components/MessageBar.js"
 import {socket} from "./socket"
 import ConnectSocket from "./hooks/ConnectSocket.js";
 import Message from "./components/Message.js";
 import "./index.css"
-export interface messageType {
-  message : string;
-  userid : string
-}
+import Group from "./components/Group.js";
+import GroupsPanel from "./components/GroupsPanel.js";
+import MessagesPanel from "./components/MessagesPanel.js";
+import { registerSocket } from "./stores/registerSocket.js";
+import useSocketStore from "./stores/socketStore.js";
+import { Route, Routes, useLocation } from "react-router-dom";
+import MessagePage from "./pages/MessagePage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+
 function App() {
-  const [messages , setMessages] = useState<Array<messageType>>([]);
+  const connect = useSocketStore(state => state.connect);
+  const loc = useLocation();
   useEffect(() => {
-    const handleReceive = (message : messageType) => {
-    setMessages(state => [...state , message])
+    registerSocket();
+    connect();
+    console.log(loc);
   }
-    socket.off("receive_message" , handleReceive)
-    socket.on("receive_message" ,  handleReceive)
-  return () => { 
-    socket.off("receive_message" , (message) => {
-    setMessages(state => [...state , message])
-  } )
-  }
-  } , [])
+  , [])
   return (
-    <div className="max-h-full h-screen w-screen">
+    <div className="max-h-full flex flex-col font-mono h-screen bg-(--bg-dark)">
       <ConnectSocket/>
-      <div className="bg-(--bg-dark) h-full w-full max-w-full flex">
-        <div className="flex-1 m-3 rounded-2xl bg-(--bg) border border-[hsl(266,10%,60%)]">
-          <div className="p-4 text-(--text-primary) text-xl font-semibold border-solid">
-            GROUPS
-          </div>
-        </div>
-        <div className="flex flex-col bg-(--bg-light) hover:bg-(--bg-light) flex-4 rounded-2xl m-3  border border-[hsl(221,10%,50%)]">
-            <div className="flex-col flex-1  p-4 flex overflow-y-auto">
-                <div className=" flex-1 overflow-y-auto">
-                  {
-                    messages.map((value , key) => (
-                      <div id={key.toString()} className="flex p-5">
-                        <Message key={key} messages={value}/>
-                        <br/>
-                      </div>
-                    ))
-                  }
-                  </div>
-                <div className="w-full sticky bottom-0">
-                <SearchBar  />
-              </div>
-          </div>
+      <div className="flex flex-1  p-4 ml-3 mr-3 justify-center bg-(--bg-light) rounded-2xl border border-[hsl(0,0%,50%)]">
+        <div className="text-2xl font-bold  font-serif">
+        chat app
         </div>
       </div>
+      <Routes>
+        <Route path="/" element={<LoginPage/>}></Route>
+        <Route path="/messages" element={<MessagePage/>}></Route>
+      </Routes>
     </div>
   )
 }

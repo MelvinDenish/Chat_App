@@ -1,13 +1,11 @@
 import {socket} from "../socket"
-type messageType = {
-  message : string;
-  userid : string
-}
+import type { chatMessage } from "../stores/socketStore";
+
 type propType = {
-  messages : messageType;
+  messages : chatMessage;
 }
 function Message(props : propType) {
-  const mine = props.messages.userid === socket.id
+  const mine = props.messages.sender === socket.id
   return (
     <div className="flex flex-col flex-1 text-black font-medium  font-mono">
         {

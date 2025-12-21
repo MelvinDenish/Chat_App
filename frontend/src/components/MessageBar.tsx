@@ -1,22 +1,18 @@
 import { useRef, useState, type SetStateAction } from "react";
 import { socket } from "../socket";
-import type { messageType } from "../App";
+import type { chatMessage } from "../stores/socketStore";
+import useSocketStore from "../stores/socketStore";
 
-type propType = {
-  setMessages :SetStateAction<messageType[]>;
-}
-export default function SearchBar() {
+export default function MessageBar() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [message, setMessage] = useState<string>("");
-
-  const sendMessage = () => {
-    if (!inputRef.current) return;
-    const value = inputRef.current.value;
-    
-    setMessage(value);
-    socket.emit("send_message" , value)
-    inputRef.current.value = ""; // clear input
-
+  const sendMessage = useSocketStore(state => state.sendMessage);
+  const inputHandler = () => {
+    if (!inputRef.current || !inputRef.current.value) return;
+    const value : chatMessage = {message :  inputRef.current.value , sender : socket.id};
+    setMessage(value.message);
+    sendMessage(value);
+    inputRef.current.value = "";
   };
 
   return (
@@ -30,7 +26,7 @@ export default function SearchBar() {
       </div>
 
       <div className="flex justify-center rounded-2xl bg-black text-[#f1f1f1] p-2 px-4">
-        <button onClick={sendMessage}>Send</button>
+        <button onClick={inputHandler}>Send</button>
       </div>
     </div>
   );
