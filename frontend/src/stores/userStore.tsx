@@ -4,7 +4,7 @@ type userStoreType = {
     userName : string ,
     setUserName : (name : string) => void;
 }
-export const userStore = create<userStoreType>((set , get) => (
+export const useUserStore = create<userStoreType>((set , get) => (
     {
         userName : "",
         setUserName : (name) => {

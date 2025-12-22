@@ -14,12 +14,12 @@ import MessagePage from "./pages/MessagePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 
 function App() {
+  
   const connect = useSocketStore(state => state.connect);
   const loc = useLocation();
   useEffect(() => {
     registerSocket();
     connect();
-    console.log(loc);
   }
   , [])
   return (
@@ -32,7 +32,8 @@ function App() {
       </div>
       <Routes>
         <Route path="/" element={<LoginPage/>}></Route>
-        <Route path="/messages" element={<MessagePage/>}></Route>
+        <Route path="/messages" element={<MessagePage/>}>
+        </Route>
       </Routes>
     </div>
   )

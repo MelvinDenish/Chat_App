@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router'
-import { userStore } from '../stores/userStore';
+import { useRef } from 'react'
+import { useNavigate } from 'react-router'
+import { useUserStore } from '../stores/userStore';
 
 function LoginPage() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
-  const setUserName = userStore(state => state.setUserName)
+  const setUserName = useUserStore(state => state.setUserName)
   const handleClick = () => {
     if(!inputRef.current || !inputRef.current.value)return ;
     setUserName(inputRef.current.value);

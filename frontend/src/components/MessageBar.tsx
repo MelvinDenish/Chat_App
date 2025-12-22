@@ -1,4 +1,4 @@
-import { useRef, useState, type SetStateAction } from "react";
+import { useRef, useState } from "react";
 import { socket } from "../socket";
 import type { chatMessage } from "../stores/socketStore";
 import useSocketStore from "../stores/socketStore";
@@ -7,6 +7,7 @@ export default function MessageBar() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [message, setMessage] = useState<string>("");
   const sendMessage = useSocketStore(state => state.sendMessage);
+
   const inputHandler = () => {
     if (!inputRef.current || !inputRef.current.value) return;
     const value : chatMessage = {message :  inputRef.current.value , sender : socket.id};

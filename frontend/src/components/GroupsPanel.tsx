@@ -8,7 +8,7 @@ function GroupsPanel() {
           <div className="p-4 text-(--text-primary) text-xl font-semibold border-solid">
             GROUPS
           </div>
-          
+
           <div>
             {
               groups.map((value , key) => (

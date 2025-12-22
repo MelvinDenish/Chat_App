@@ -6,6 +6,7 @@ type propType = {
 }
 function Message(props : propType) {
   const mine = props.messages.sender === socket.id
+  
   return (
     <div className="flex flex-col flex-1 text-black font-medium  font-mono">
         {
