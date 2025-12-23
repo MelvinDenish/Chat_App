@@ -29,7 +29,7 @@ return (
                         </> : 
                         messages.map((value , key) => (
                           <div className="flex p-5">
-                            <Message key={Math.random() * 100} messages={value}/>
+                            <Message key={key} messages={value}/>
                             <br/>
                           </div>
                         ))}

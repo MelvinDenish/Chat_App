@@ -1,7 +1,6 @@
 import mongoose from "mongoose"
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
     userName : String,
-    userId : Number,
 },{
     timestamp : true,
 }

@@ -5,6 +5,9 @@ export const registerSocket = () => {
     socket.on("connect" ,  () => {
         useSocketStore.setState({isConnected : true})
     })
+    socket.on("registerUser" , ()=> {
+        
+    })
     socket.on("disconnect" , () => {
         useSocketStore.setState({isConnected : false})
     })

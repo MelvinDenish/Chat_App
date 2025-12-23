@@ -11,9 +11,10 @@ function LoginPage() {
     setUserName(inputRef.current.value);
     navigate("/messages");
   }
-  return (
+  
+return (
     <div className='flex-40 bg-(--bg-dark) flex flex-wrap justify-center items-center'>
-      <div className='bg-(--bg-light) rounded-2xl mb-20 flex  border flex-col justify-center items-center'>
+      <div className='bg-(--bg-light) rounded-2xl mvb-20 flex  border flex-col justify-center items-center'>
 
         <div className='flex p-4'>
           <div className='p-4 font-serif'>Name : </div>
