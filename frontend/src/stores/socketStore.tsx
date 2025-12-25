@@ -1,61 +1,71 @@
 import { create } from 'zustand'
 import { socket } from '../socket'
+import { useUserStore } from './useUserStore'
 
-export type chatMessage = {
-    message : string,
-    sender ?: string,
+export type messsageType = {
+    userName : string,
+    userId : string,
+    messageData : string,
 }
 
 type storeType = {
     activeGroupId : string | null,
+    activeGroupName : string,
     isConnected : boolean,
-    groupMessages : Record<string , chatMessage[]>,
-    joinGroup : (groupId : string) => void,
+    groupMessages : Array<messsageType>,
+    joinGroup : (groupId : string , groupName : string) => void,
     leaveGroup : () => void,
     connect : () => void,
     disconnect : () => void,
-    sendMessage : (data : chatMessage) => void,
+    sendMessage : (message : string) => void,
     // sendIsSendingMessage : (data) => void
 }
 const useSocketStore = create <storeType>((set , get) => (
     {
-        userName : "",
         isConnected : false,
         activeGroupId : null,
-        groupMessages : {},
+        activeGroupName : "",
+        groupMessages : [],
         connect : () => {
-            socket.connect()
+            socket.connect();
         },
         leaveGroup : ()=>{
             const {activeGroupId} = get();
             if(!activeGroupId)return;
-            socket.emit("leave-room",activeGroupId);
+            socket.emit("leaveGroup",activeGroupId);
             console.log(`left group ${activeGroupId}`);
-            set({activeGroupId : null})
+            set({activeGroupId : null , activeGroupName : ""})
         },
-        joinGroup : (groupId) => {
+        joinGroup : (groupId , groupName) => {
+
             const {activeGroupId} = get();
             if(activeGroupId === groupId)return;
             if(activeGroupId)
             {
-                socket.emit("leave-room" , activeGroupId);
-                console.log(`left group ${activeGroupId}`);
+                socket.emit("leaveGroup" , activeGroupId);
+                console.log(`left Group ${activeGroupId}`);
             }
-            socket.emit("join-room" , groupId);
-            set({activeGroupId : groupId});
+            socket.emit("joinGroup" , groupId);
+            socket.on("getAllMessagesOfGroup" , (messages) => {
+                set({groupMessages : messages})
+            })
+            set({activeGroupId : groupId , activeGroupName : groupName});
             console.log(`joined group ${groupId}`);
         },
         disconnect : () => {
             socket.disconnect();
         },
 
-        sendMessage : (data) => {
-            const { activeGroupId } = get()
+        sendMessage : (messageData) => {
+            const {userId , userName} = useUserStore.getState();
+            const { activeGroupId } = get();
             if(!activeGroupId)return;
-            socket.emit("send-message" , {
-                messagedata : data,
+            socket.emit("sendMessage" , {
+                userId,
+                userName,
+                messageData,
                 groupId : activeGroupId,
-            })
+            })  
         },
     }
 ))

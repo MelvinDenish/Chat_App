@@ -1,7 +1,7 @@
-import createUserService from "../services/userService";
+import createUserService from "../services/userService.js";
 
-const createUser = async({userName}) => {
+export const createUser = async({userName}) => {
     const createdUser = await createUserService({userName});
     return createdUser;
 }
-export default createUser;
+

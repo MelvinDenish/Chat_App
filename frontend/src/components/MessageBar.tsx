@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { socket } from "../socket";
-import type { chatMessage } from "../stores/socketStore";
 import useSocketStore from "../stores/socketStore";
 
 export default function MessageBar() {
@@ -10,8 +9,8 @@ export default function MessageBar() {
 
   const inputHandler = () => {
     if (!inputRef.current || !inputRef.current.value) return;
-    const value : chatMessage = {message :  inputRef.current.value , sender : socket.id};
-    setMessage(value.message);
+    const value : string = inputRef.current.value;
+    setMessage(value);
     sendMessage(value);
     inputRef.current.value = "";
   };

@@ -1,24 +1,20 @@
 import { socket } from "../socket";
-import useSocketStore, { type chatMessage } from "./socketStore";
+import useSocketStore, { type messsageType } from "./socketStore";
 
 export const registerSocket = () => {
     socket.on("connect" ,  () => {
         useSocketStore.setState({isConnected : true})
     })
-    socket.on("registerUser" , ()=> {
-        
-    })
     socket.on("disconnect" , () => {
         useSocketStore.setState({isConnected : false})
     })
-    socket.on("receive-message" , (data : chatMessage & {groupId : string}) => {
-        console.log("data : " + data.message + "\t" + data.sender + "\tgroup : " + data.groupId)
+    socket.on("receiveMessage" , (data : messsageType) => {
+        console.log("data : " + data.messageData + "\t" + data.userId)
         useSocketStore.setState(state => (
             {
-                groupMessages : {
-                    ...state.groupMessages , [data.groupId] : [...(state.groupMessages[data.groupId] || [])   , data]
-                }
+                groupMessages : [...state.groupMessages , data]
             }
          ));
     })
+    
 }
