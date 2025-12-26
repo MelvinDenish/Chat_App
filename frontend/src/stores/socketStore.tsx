@@ -7,7 +7,6 @@ export type messsageType = {
     userId : string,
     messageData : string,
 }
-
 type storeType = {
     activeGroupId : string | null,
     activeGroupName : string,
@@ -34,19 +33,21 @@ const useSocketStore = create <storeType>((set , get) => (
             if(!activeGroupId)return;
             socket.emit("leaveGroup",activeGroupId);
             console.log(`left group ${activeGroupId}`);
-            set({activeGroupId : null , activeGroupName : ""})
+            set({activeGroupId : null , activeGroupName : "" , groupMessages : []})
         },
         joinGroup : (groupId , groupName) => {
-
+            
             const {activeGroupId} = get();
             if(activeGroupId === groupId)return;
             if(activeGroupId)
             {
-                socket.emit("leaveGroup" , activeGroupId);
-                console.log(`left Group ${activeGroupId}`);
+            socket.emit("leaveGroup",activeGroupId);
+            console.log(`left group ${activeGroupId}`);
+            set({activeGroupId : null , activeGroupName : "" , groupMessages : []})
+
             }
             socket.emit("joinGroup" , groupId);
-            socket.on("getAllMessagesOfGroup" , (messages) => {
+            socket.on("getAllMessages" , ({messages}) => {
                 set({groupMessages : messages})
             })
             set({activeGroupId : groupId , activeGroupName : groupName});

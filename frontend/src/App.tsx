@@ -13,13 +13,16 @@ import useSocketStore from "./stores/socketStore.js";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import MessagePage from "./pages/MessagePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
-import AddGroupPage from "./pages/addGroupPage.tsx";
+import AddGroupPage from "./pages/AddGroupPage.tsx";
+import { useUserStore } from "./stores/useUserStore.tsx";
 
 function App() {
   
   const connect = useSocketStore(state => state.connect);
+  const userName = useUserStore(state => state.userName);
   const navigate = useNavigate();
   const handleAddGroup = () => {
+    if(!userName){return;}
     navigate("/addgroup")
   }
   useEffect(() => {
@@ -35,7 +38,7 @@ function App() {
           <div className="flex flex-1 text-2xl font-semibold  font-serif">
           CHAT APP
           </div>
-        <IoIosAddCircle size={30} onClick={handleAddGroup}/>
+        <IoIosAddCircle size={30} onClick={handleAddGroup} />
         <div>
           </div>
       </div>

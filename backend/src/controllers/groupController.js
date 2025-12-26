@@ -19,11 +19,13 @@ export const getAllgroups = async() => {
 }
 
 export const getAllMessagesFromGroup = async({groupId}) => {
-    const group = await Group.findById(groupId);
-    if(!group){
-        console.log("groupNotFound");
+    const group = await Group.findById(groupId).populate({path : "messages" , populate : {path : "user"}});
+    const groupmsgs = group.messages.map(ele => ({messageData : ele.message , userName : ele.user.userName , userId : ele.user._id}))
+    console.log(groupmsgs);
+    if(!groupmsgs){
+        console.log("NO MSGS FOUND");
         return;}
-    await group.populate('messages');
-    return group;
-}
+    return groupmsgs;
+}   
+
 export default createGroup;

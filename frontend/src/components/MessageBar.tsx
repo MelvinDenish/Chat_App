@@ -6,7 +6,6 @@ export default function MessageBar() {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [message, setMessage] = useState<string>("");
   const sendMessage = useSocketStore(state => state.sendMessage);
-
   const inputHandler = () => {
     if (!inputRef.current || !inputRef.current.value) return;
     const value : string = inputRef.current.value;

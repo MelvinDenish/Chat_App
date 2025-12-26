@@ -65,9 +65,9 @@ io.on("connection" , async (socket) => {
 
     socket.on("joinGroup" , async(groupId) => {
         socket.join(groupId)
-        const group = await getAllMessagesFromGroup({groupId});
-        if(!group){console.log("\ngroup not found");return;}
-        socket.emit("getAllMessages" , {messages : group.messages})
+        const groupmsgs = await getAllMessagesFromGroup({groupId});
+        if(!groupmsgs){console.log("\ngroup not found");return;}
+        socket.emit("getAllMessages" , {messages : groupmsgs})
         console.log(`room joined ${groupId}`)
     })
 })
