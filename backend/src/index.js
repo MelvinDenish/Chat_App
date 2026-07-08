@@ -12,8 +12,11 @@ import {Server} from "socket.io";
 import { createUser } from "./controllers/userController.js";
 import {createGroup, getAllgroups, getAllMessagesFromGroup } from "./controllers/groupController.js";
 import { createMessageOfGroup } from "./controllers/messageController.js";
+import { registerHealthEndpoint } from "./standalone/healthReporter.js";
 connectDB();
 dotenv.config();
+registerHealthEndpoint(app);
+
 const io = new Server(httpServer , {
     cors:{   
         origin:"*"
