@@ -1,29 +1,24 @@
-import {socket} from "../socket"
-import { type messsageType } from "../stores/socketStore"
+import { type messageType } from "../stores/socketStore"
 import { useUserStore } from "../stores/useUserStore"
 type propType = {
-  data : {
-    userName : string,
-    userId : string,
-    messageData : string,
-  }
+  data: messageType
 }
-function Message({data} : propType) {
+function Message({ data }: propType) {
   const userId = useUserStore(state => state.userId)
   const mine = data.userId === userId;
   return (
     <div className="flex flex-col flex-1 text-black font-medium  font-mono">
-        {
-          mine ? 
+      {
+        mine ?
           <div className="self-end p-4 bg-(--bg-ligther) rounded-2xl">
-{          data.messageData
-}          </div>
+            {data.messageData
+            }          </div>
           :
           <div className="self-start p-4 rounded-2xl bg-(--bg-ligthest)">
-{          data.messageData
-}          </div>
-        }
-        
+            {data.messageData
+            }          </div>
+      }
+
     </div>
   )
 }
