@@ -8,11 +8,7 @@ function GroupsPanel() {
         GROUPS
       </div>
       <div>
-        {
-          groups && groups.map((value) => (
-            <Group key={value.groupId} group={value} />
-          ))
-        }
+
       </div>
     </div>
 
